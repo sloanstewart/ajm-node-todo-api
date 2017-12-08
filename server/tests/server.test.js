@@ -197,54 +197,54 @@ describe('GET /users/me', () => {
             })
             .end(done);
     });
+});
 
-    describe('POST /users', () => {
-        it('should create a user', (done) => {
-           var email = 'test@test.org';
-           var password = 'password';
+describe('POST /users', () => {
+    it('should create a user', (done) => {
+        var email = 'test@test.org';
+        var password = 'password';
 
-            request(app)
-                .post('/users')
-                .send({email, password})
-                .expect(200)
-                .expect((res) => {
-                    expect(res.headers['x-auth']).toBeTruthy();
-                    expect(res.body._id).toBeTruthy();
-                    expect(res.body.email).toBe(email);
-                })
-                .end((err) => {
-                    if (err) {
-                        return done(err);
-                    }
+        request(app)
+            .post('/users')
+            .send({email, password})
+            .expect(200)
+            .expect((res) => {
+                expect(res.headers['x-auth']).toBeTruthy();
+                expect(res.body._id).toBeTruthy();
+                expect(res.body.email).toBe(email);
+            })
+            .end((err) => {
+                if (err) {
+                    return done(err);
+                }
 
-                    User.findOne({email}).then((user) => {
-                        expect(user).toBeTruthy();
-                        expect(user.password).not.toBe(password);
-                        done(0);
-                    });
+                User.findOne({email}).then((user) => {
+                    expect(user).toBeTruthy();
+                    expect(user.password).not.toBe(password);
+                    done(0);
                 });
-        });
+            });
+    });
 
-        it('should return validation errors if request invalid', (done) => {
-            request(app)
-                .post('/users')
-                .send({
-                    email: 'bademail',
-                    password: '1'
-                })
-                .expect(400)
-                .end(done);
-        });
+    it('should return validation errors if request invalid', (done) => {
+        request(app)
+            .post('/users')
+            .send({
+                email: 'bademail',
+                password: '1'
+            })
+            .expect(400)
+            .end(done);
+    });
 
-        it('should not create user if email in use', (done) => {
-            request(app)
-                .post('/users')
-                .send({
-                    email: users[0].email,
-                    password: 'password'
-                })
-                .expect(400)
-                .end(done);
-        });
+    it('should not create user if email in use', (done) => {
+        request(app)
+            .post('/users')
+            .send({
+                email: users[0].email,
+                password: 'password'
+            })
+            .expect(400)
+            .end(done);
     });
 });

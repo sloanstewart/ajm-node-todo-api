@@ -11,8 +11,8 @@ var password = 'password';
 // });
 
 var hashedPassword = '$2a$10$vQKz.uashx77AfyCaE/lieS2QZpKptWXMaJo.nosiDyadyNlmKCt2';
-bcrypt.compare(password, hashedPassword, (err, res) => {
-    console.log(res);
+bcrypt.compare(password, hashedPassword, (err, result) => {
+    console.log(result);
 });
 
 // var data = {
