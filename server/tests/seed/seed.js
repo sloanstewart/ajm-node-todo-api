@@ -17,17 +17,23 @@ const users = [{
 },{
     _id: userTwoId,
     email: 'user2@dank.net',
-    password: 'userTwoPass'
+    password: 'userTwoPass',
+    tokens: [{
+        access: 'auth',
+        token: jwt.sign({_id: userTwoId, access: 'auth'}, 'supersecret').toString()
+    }]
 }];
 
 const todos = [{
     _id: new ObjectID(),
-    text: 'first test todo'
+    text: 'first test todo',
+    _creator: userOneId
 }, {
     _id: new ObjectID(),
     text: 'second test todo',
     completed: true,
-    completedAt: 9000
+    completedAt: 9000,
+    _creator: userTwoId
 }];
 
 const populateTodos = (done) => {
